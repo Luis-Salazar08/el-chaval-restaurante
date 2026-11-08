@@ -71,8 +71,8 @@ require_once '../backend/conexion.php';
                             // 2. Botón Editar (Preparado para el futuro)
                             echo '<a href="#" class="bg-yellow-400 text-yellow-900 px-2 py-1 rounded text-xs font-bold shadow hover:bg-yellow-500 transition">Editar</a>';
                             
-                            // 3. Botón Borrar (Preparado para el futuro)
-                            echo '<a href="#" class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold shadow hover:bg-red-600 transition">Borrar</a>';
+                            // 3. Botón Borrar (Ahora funcional y con alerta de confirmación)
+                            echo '<a href="borrar_plato.php?id=' . $row["id"] . '" onclick="return confirm(\'¿Estás seguro de que deseas eliminar este plato para siempre?\')" class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold shadow hover:bg-red-600 transition">Borrar</a>';
                             
                             echo '</td>';
                             echo '</tr>';
