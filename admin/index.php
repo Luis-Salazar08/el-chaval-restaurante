@@ -1,0 +1,77 @@
+<?php
+// Conectar a la base de datos
+require_once '../backend/conexion.php';
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - El Chaval</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Barra de navegación del Administrador -->
+    <nav class="bg-gray-900 text-white p-4 shadow-md flex justify-between items-center">
+        <h1 class="font-bold text-xl flex items-center gap-2">
+            <span>👨‍🍳</span> Admin - El Chaval
+        </h1>
+        <a href="../frontend/index.php" target="_blank" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded text-sm font-bold transition">
+            Ver Menú Público
+        </a>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto p-6 max-w-5xl">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-black text-gray-800">Gestión de Platos</h2>
+            <button class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 font-bold text-sm">
+                + Nuevo Plato
+            </button>
+        </div>
+
+        <!-- Tabla de Platos -->
+        <div class="bg-white rounded-lg shadow overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700 uppercase text-sm">
+                        <th class="p-4">ID</th>
+                        <th class="p-4">Nombre del Plato</th>
+                        <th class="p-4">Estado</th>
+                        <th class="p-4 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600">
+                    <?php
+                    // Obtener todos los platos de la base de datos
+                    $sql = "SELECT id, nombre, estado FROM platos ORDER BY id_categoria, nombre";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            // Cambiar el color de la etiqueta según el estado
+                            $color_estado = ($row["estado"] == 'disponible') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+                            
+                            echo '<tr class="border-b hover:bg-gray-50">';
+                            echo '<td class="p-4 font-bold">' . $row["id"] . '</td>';
+                            echo '<td class="p-4">' . htmlspecialchars($row["nombre"]) . '</td>';
+                            echo '<td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ' . $color_estado . '">' . $row["estado"] . '</span></td>';
+                            echo '<td class="p-4 text-center gap-2 flex justify-center">';
+                            echo '<button class="bg-yellow-400 text-yellow-900 px-3 py-1 rounded text-xs font-bold">Editar</button>';
+                            echo '<button class="bg-red-500 text-white px-3 py-1 rounded text-xs font-bold">Borrar</button>';
+                            echo '</td>';
+                            echo '</tr>';
+                        }
+                    } else {
+                        echo '<tr><td colspan="4" class="p-4 text-center">No hay platos registrados.</td></tr>';
+                    }
+                    $conn->close();
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>
