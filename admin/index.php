@@ -50,16 +50,30 @@ require_once '../backend/conexion.php';
 
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
-                            // Cambiar el color de la etiqueta según el estado
+                            // Colores de la etiqueta según el estado
                             $color_estado = ($row["estado"] == 'disponible') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+                            
+                            // Configurar el botón de agotar/activar
+                            $texto_boton = ($row["estado"] == 'disponible') ? 'Agotar' : 'Activar';
+                            $color_boton = ($row["estado"] == 'disponible') ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-500 hover:bg-green-600';
                             
                             echo '<tr class="border-b hover:bg-gray-50">';
                             echo '<td class="p-4 font-bold">' . $row["id"] . '</td>';
                             echo '<td class="p-4">' . htmlspecialchars($row["nombre"]) . '</td>';
                             echo '<td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ' . $color_estado . '">' . $row["estado"] . '</span></td>';
-                            echo '<td class="p-4 text-center gap-2 flex justify-center">';
-                            echo '<button class="bg-yellow-400 text-yellow-900 px-3 py-1 rounded text-xs font-bold">Editar</button>';
-                            echo '<button class="bg-red-500 text-white px-3 py-1 rounded text-xs font-bold">Borrar</button>';
+                            
+                            // Contenedor de los 3 botones
+                            echo '<td class="p-4 flex justify-center gap-2">';
+                            
+                            // 1. Botón de Cambiar Estado (El que ya funciona)
+                            echo '<a href="cambiar_estado.php?id=' . $row["id"] . '&estado=' . $row["estado"] . '" class="' . $color_boton . ' text-white px-2 py-1 rounded text-xs font-bold shadow transition">' . $texto_boton . '</a>';
+                            
+                            // 2. Botón Editar (Preparado para el futuro)
+                            echo '<a href="#" class="bg-yellow-400 text-yellow-900 px-2 py-1 rounded text-xs font-bold shadow hover:bg-yellow-500 transition">Editar</a>';
+                            
+                            // 3. Botón Borrar (Preparado para el futuro)
+                            echo '<a href="#" class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold shadow hover:bg-red-600 transition">Borrar</a>';
+                            
                             echo '</td>';
                             echo '</tr>';
                         }
