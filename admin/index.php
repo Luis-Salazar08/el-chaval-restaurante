@@ -26,9 +26,7 @@ require_once '../backend/conexion.php';
     <main class="container mx-auto p-6 max-w-5xl">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-black text-gray-800">Gestión de Platos</h2>
-            <button class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 font-bold text-sm">
-                + Nuevo Plato
-            </button>
+            <a href="nuevo_plato.php" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 font-bold text-sm font-sans block text-center">+ Nuevo Plato</a>
         </div>
 
         <!-- Tabla de Platos -->
