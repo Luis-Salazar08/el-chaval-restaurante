@@ -1,5 +1,9 @@
 <?php
-// Conectar a la base de datos
+session_start();
+if (!isset($_SESSION['admin_login']) || $_SESSION['admin_login'] !== true) {
+    header("Location: login.php");
+    exit();
+}
 require_once '../backend/conexion.php';
 ?>
 <!DOCTYPE html>
@@ -14,13 +18,18 @@ require_once '../backend/conexion.php';
 
     <!-- Barra de navegación del Administrador -->
     <nav class="bg-gray-900 text-white p-4 shadow-md flex justify-between items-center">
-        <h1 class="font-bold text-xl flex items-center gap-2">
-            <span>👨‍🍳</span> Admin - El Chaval
-        </h1>
-        <a href="../frontend/index.php" target="_blank" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded text-sm font-bold transition">
+    <h1 class="font-bold text-xl flex items-center gap-2">
+        <span>👨‍🍳</span> Admin - El Chaval
+    </h1>
+    <div class="flex items-center gap-3">
+        <a href="../frontend/index.php" target="_blank" class="bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded text-xs font-bold transition">
             Ver Menú Público
         </a>
-    </nav>
+        <a href="logout.php" class="bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded text-xs font-bold transition">
+            Cerrar Sesión
+        </a>
+    </div>
+</nav>
 
     <!-- Contenido Principal -->
     <main class="container mx-auto p-6 max-w-5xl">
