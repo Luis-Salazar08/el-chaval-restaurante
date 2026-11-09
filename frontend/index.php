@@ -86,6 +86,12 @@ require_once '../backend/conexion.php';
         $conn->close();
         ?>
     </main>
-
+<!-- Pie de página con acceso para el Admin -->
+    <footer class="text-center py-6 border-t border-amber-200/60 mt-10">
+        <p class="text-xs text-gray-500 font-medium mb-2">© El Chaval Restaurant - Todos los derechos reservados</p>
+        <a href="../admin/index.php" class="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-chaval-oscuro transition font-bold underline">
+            <span>🔒</span> Acceso Personal / Admin
+        </a>
+    </footer>
 </body>
 </html>

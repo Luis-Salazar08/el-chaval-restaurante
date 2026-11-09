@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
-        // Verificar la contraseña cifrada o coincidencia directa
         if (password_verify($password, $user['password']) || $password === 'admin123') {
             $_SESSION['admin_login'] = true;
             $_SESSION['admin_user'] = $usuario;
+            $_SESSION['just_logged_in'] = true; // 👈 Marca para indicar inicio reciente
             header("Location: index.php");
             exit();
         } else {
@@ -67,6 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </button>
         </form>
     </div>
-
+<script>
+    // Si el login fue exitoso y entró a esta página o procesó el formulario
+    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($error)): ?>
+        sessionStorage.setItem('admin_sesion_activa', 'true');
+    <?php endif; ?>
+</script>
 </body>
 </html>
