@@ -61,15 +61,26 @@ require_once '../backend/conexion.php';
                 
                 // 3. Pedir a la base de datos los platos que pertenezcan a esta categoría
                 $id_cat = $categoria["id"];
-                $sql_platos = "SELECT nombre FROM platos WHERE id_categoria = $id_cat AND estado = 'disponible'";
+                $sql_platos = "SELECT nombre, estado FROM platos WHERE id_categoria = $id_cat";
                 $result_platos = $conn->query($sql_platos);
                 
                 if ($result_platos->num_rows > 0) {
                     // Imprimir cada plato
                     while($plato = $result_platos->fetch_assoc()) {
-                        echo '<li class="bg-white p-3 rounded-lg shadow-sm border-l-4 border-chaval-rojo flex items-center justify-between">';
-                        echo '<span class="font-bold text-gray-800 uppercase text-sm"> • ' . htmlspecialchars($plato["nombre"]) . '</span>';
-                        echo '</li>';
+                        
+                        // Si el plato está agotado (Fondo gris, texto gris, sin tachar + etiqueta roja)
+                        if ($plato['estado'] == 'agotado') {
+                            echo '<li class="bg-gray-100 p-4 rounded-lg shadow-sm border border-gray-200 flex justify-between items-center opacity-75 mb-3">';
+                            echo '<span class="text-gray-500 font-semibold">' . htmlspecialchars($plato["nombre"]) . '</span>';
+                            echo '<span class="text-[10px] bg-red-100 text-red-500 font-black px-2 py-1 rounded border border-red-200 uppercase tracking-widest">Agotado</span>';
+                            echo '</li>';
+                        } 
+                        // Si el plato está disponible (Diseño normal destacado)
+                        else {
+                            echo '<li class="bg-white text-gray-800 font-bold p-4 rounded-lg shadow-md border-l-4 border-chaval-naranja text-lg flex items-center mb-3">';
+                            echo '<span>' . htmlspecialchars($plato["nombre"]) . '</span>';
+                            echo '</li>';
+                        }
                     }
                 } else {
                     echo '<li class="text-gray-500 italic">No hay platos disponibles.</li>';
